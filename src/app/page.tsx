@@ -24,13 +24,28 @@ export default async function Dashboard() {
     return <div>Profile not found. Please contact admin.</div>
   }
 
-  // Fetch recent scans
-  const { data: scans } = await supabase
-    .from('scans')
-    .select('*, profiles!senior_id(full_name)')
-    .eq('freshman_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(5)
+  const isSenior = profile.role === 'SENIOR'
+  const isFreshman = profile.role === 'FRESHMAN'
+
+  // Fetch data based on role
+  let scans = []
+  if (isFreshman) {
+    const { data } = await supabase
+      .from('scans')
+      .select('*, profiles!senior_id(full_name)')
+      .eq('freshman_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(5)
+    scans = data || []
+  } else if (isSenior) {
+    const { data } = await supabase
+      .from('scans')
+      .select('*, profiles!freshman_id(full_name, student_id)')
+      .eq('senior_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(5)
+    scans = data || []
+  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] pb-24">
@@ -55,11 +70,19 @@ export default async function Dashboard() {
 
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20 flex items-center justify-between">
           <div>
-            <p className="text-blue-100 text-sm font-medium">Your Tokens</p>
-            <p className="text-white text-4xl font-black mt-1">{profile.total_tokens}</p>
+            <p className="text-blue-100 text-sm font-medium">
+              {isSenior ? 'Freshmen Scanned' : 'Your Tokens'}
+            </p>
+            <p className="text-white text-4xl font-black mt-1">
+              {isSenior ? (scans.length >= 5 ? '5+' : scans.length) : profile.total_tokens}
+            </p>
           </div>
           <div className="h-16 w-16 bg-white rounded-2xl flex items-center justify-center shadow-inner">
-            <Trophy className="text-[#2563EB] h-8 w-8" />
+            {isSenior ? (
+              <QrCode className="text-[#2563EB] h-8 w-8" />
+            ) : (
+              <Trophy className="text-[#2563EB] h-8 w-8" />
+            )}
           </div>
         </div>
       </div>
@@ -67,24 +90,38 @@ export default async function Dashboard() {
       {/* Main Content */}
       <div className="px-6 -mt-12">
         <div className="grid grid-cols-2 gap-4">
-          <Link
-            href="/scan"
-            className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col items-center gap-3 transition-all active:scale-95 border border-slate-50"
-          >
-            <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2563EB]">
-              <QrCode className="h-7 w-7" />
-            </div>
-            <span className="font-bold text-[#1e293b]">Scan QR</span>
-          </Link>
-          <Link
-            href="/leaderboard"
-            className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col items-center gap-3 transition-all active:scale-95 border border-slate-50"
-          >
-            <div className="h-14 w-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500">
-              <Trophy className="h-7 w-7" />
-            </div>
-            <span className="font-bold text-[#1e293b]">Ranking</span>
-          </Link>
+          {isSenior ? (
+            <Link
+              href="/senior/qr"
+              className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col items-center gap-3 transition-all active:scale-95 border border-slate-50 col-span-2"
+            >
+              <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2563EB]">
+                <QrCode className="h-7 w-7" />
+              </div>
+              <span className="font-bold text-[#1e293b]">My QR Code</span>
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/scan"
+                className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col items-center gap-3 transition-all active:scale-95 border border-slate-50"
+              >
+                <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2563EB]">
+                  <QrCode className="h-7 w-7" />
+                </div>
+                <span className="font-bold text-[#1e293b]">Scan QR</span>
+              </Link>
+              <Link
+                href="/leaderboard"
+                className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col items-center gap-3 transition-all active:scale-95 border border-slate-50"
+              >
+                <div className="h-14 w-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500">
+                  <Trophy className="h-7 w-7" />
+                </div>
+                <span className="font-bold text-[#1e293b]">Ranking</span>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* History Section */}
@@ -92,9 +129,9 @@ export default async function Dashboard() {
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-bold text-[#1e293b] flex items-center gap-2">
               <History className="h-5 w-5 text-[#2563EB]" />
-              Recent Collection
+              {isSenior ? 'Recent Scans' : 'Recent Collection'}
             </h3>
-            <Link href="/history" className="text-sm font-semibold text-[#2563EB]">View All</Link>
+            {isFreshman && <Link href="/history" className="text-sm font-semibold text-[#2563EB]">View All</Link>}
           </div>
 
           <div className="space-y-3">
@@ -107,21 +144,24 @@ export default async function Dashboard() {
                     </div>
                     <div>
                       <p className="font-bold text-[#1e293b] text-sm">
-                        Scanned {scan.profiles.full_name}
+                        {isSenior ? scan.profiles.full_name : `Scanned ${scan.profiles.full_name}`}
                       </p>
                       <p className="text-xs text-[#94a3b8]">
+                        {isSenior ? `ID: ${scan.profiles.student_id} • ` : ''}
                         {new Date(scan.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>
                   </div>
                   <div className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-bold">
-                    +1 Token
+                    {isSenior ? 'Verified' : '+1 Token'}
                   </div>
                 </div>
               ))
             ) : (
               <div className="bg-white p-8 rounded-3xl border-2 border-dashed border-slate-200 text-center">
-                <p className="text-[#94a3b8] text-sm">No tokens collected yet. Start scanning!</p>
+                <p className="text-[#94a3b8] text-sm">
+                  {isSenior ? 'No one has scanned your QR yet.' : 'No tokens collected yet. Start scanning!'}
+                </p>
               </div>
             )}
           </div>
@@ -135,12 +175,21 @@ export default async function Dashboard() {
             <UserIcon className="h-6 w-6" />
           </div>
         </Link>
-        <Link href="/scan" className="flex flex-col items-center gap-1 text-[#94a3b8]">
-          <QrCode className="h-6 w-6" />
-        </Link>
-        <Link href="/leaderboard" className="flex flex-col items-center gap-1 text-[#94a3b8]">
-          <Trophy className="h-6 w-6" />
-        </Link>
+        {isFreshman && (
+          <>
+            <Link href="/scan" className="flex flex-col items-center gap-1 text-[#94a3b8]">
+              <QrCode className="h-6 w-6" />
+            </Link>
+            <Link href="/leaderboard" className="flex flex-col items-center gap-1 text-[#94a3b8]">
+              <Trophy className="h-6 w-6" />
+            </Link>
+          </>
+        )}
+        {isSenior && (
+          <Link href="/senior/qr" className="flex flex-col items-center gap-1 text-[#94a3b8]">
+            <QrCode className="h-6 w-6" />
+          </Link>
+        )}
       </div>
     </div>
   )
