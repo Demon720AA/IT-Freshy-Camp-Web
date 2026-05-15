@@ -2,6 +2,8 @@ import { createClient } from '@/utils/supabase/server'
 import { Trophy, Medal, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
+export const revalidate = 15 // Revalidate every 15 seconds
+
 export default async function LeaderboardPage() {
   const supabase = await createClient()
 

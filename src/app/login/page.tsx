@@ -1,6 +1,7 @@
 import { login } from './actions'
 import { GraduationCap, Lock, User } from 'lucide-react'
 import Link from 'next/link'
+import { SubmitButton } from './submit-button'
 
 export default async function LoginPage({
   searchParams,
@@ -19,7 +20,10 @@ export default async function LoginPage({
           <p className="mt-2 text-[#2563eb] font-medium">Token Collection System</p>
         </div>
 
-        <form className="space-y-4 rounded-[2.5rem] bg-white p-8 shadow-2xl shadow-black/5 border border-slate-100">
+        <form 
+          action={login}
+          className="space-y-4 rounded-[2.5rem] bg-white p-8 shadow-2xl shadow-black/5 border border-slate-100"
+        >
           <div>
             <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">Student ID</label>
             <div className="relative">
@@ -65,12 +69,7 @@ export default async function LoginPage({
           )}
 
           <div className="pt-2">
-            <button
-              formAction={login}
-              className="w-full rounded-2xl bg-[#2563eb] py-4 font-black text-white shadow-lg shadow-blue-500/20 transition-all hover:brightness-110 active:scale-[0.98]"
-            >
-              Login
-            </button>
+            <SubmitButton label="Login" />
           </div>
         </form>
 
