@@ -1,44 +1,74 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Html5QrcodeScanner } from 'html5-qrcode'
+import { useEffect, useState, useRef } from 'react'
+import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { useRouter } from 'next/navigation'
-import { AlertCircle, CheckCircle2, Loader2, X } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Loader2, X, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Scanner() {
-  const [scanResult, setScanResult] = useState<string | null>(null)
   const [status, setStatus] = useState<'idle' | 'scanning' | 'processing' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('environment')
   const router = useRouter()
+  const scannerRef = useRef<Html5Qrcode | null>(null)
+
+  const stopScanner = async () => {
+    if (scannerRef.current && scannerRef.current.isScanning) {
+      await scannerRef.current.stop()
+    }
+  }
+
+  const startScanner = async (mode: 'user' | 'environment') => {
+    try {
+      if (!scannerRef.current) {
+        scannerRef.current = new Html5Qrcode('reader', {
+          verbose: false,
+          formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE]
+        })
+      }
+
+      await stopScanner()
+
+      await scannerRef.current.start(
+        { facingMode: mode },
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+          aspectRatio: 1.0,
+        },
+        onScanSuccess,
+        onScanFailure
+      )
+      setStatus('idle') // We use 'idle' to show the camera view
+    } catch (err) {
+      console.error("Failed to start scanner", err)
+      setStatus('error')
+      setErrorMsg("Camera access denied or not found")
+    }
+  }
 
   useEffect(() => {
-    const scanner = new Html5QrcodeScanner(
-      'reader',
-      {
-        fps: 10,
-        qrbox: { width: 250, height: 250 },
-        aspectRatio: 1.0,
-      },
-      /* verbose= */ false
-    )
-
-    scanner.render(onScanSuccess, onScanFailure)
-
-    function onScanSuccess(decodedText: string) {
-      setScanResult(decodedText)
-      scanner.clear()
-      handleScan(decodedText)
-    }
-
-    function onScanFailure(error: any) {
-      // console.warn(`Code scan error = ${error}`);
-    }
+    startScanner(facingMode)
 
     return () => {
-      scanner.clear().catch(err => console.error("Failed to clear scanner", err))
+      stopScanner().catch(err => console.error("Failed to stop scanner", err))
     }
   }, [])
+
+  const toggleCamera = async () => {
+    const newMode = facingMode === 'user' ? 'environment' : 'user'
+    setFacingMode(newMode)
+    await startScanner(newMode)
+  }
+
+  function onScanSuccess(decodedText: string) {
+    stopScanner().then(() => handleScan(decodedText))
+  }
+
+  function onScanFailure(error: any) {
+    // console.warn(`Code scan error = ${error}`);
+  }
 
   const handleScan = async (seniorId: string) => {
     setStatus('processing')
@@ -126,12 +156,22 @@ export default function Scanner() {
             </p>
           </div>
 
-          <Link 
-            href="/"
-            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-slate-200 text-[#64748b] active:scale-90 transition-all shadow-lg"
-          >
-            <X className="h-8 w-8" />
-          </Link>
+          <div className="flex gap-4">
+            <button
+              onClick={toggleCamera}
+              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-slate-200 text-[#2563eb] active:scale-90 transition-all shadow-lg"
+              title="Flip Camera"
+            >
+              <RefreshCw className="h-8 w-8" />
+            </button>
+
+            <Link 
+              href="/"
+              className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white border border-slate-200 text-[#64748b] active:scale-90 transition-all shadow-lg"
+            >
+              <X className="h-8 w-8" />
+            </Link>
+          </div>
         </>
       )}
 
@@ -143,19 +183,10 @@ export default function Scanner() {
         .animate-scan-line {
           animation: scan 2s linear infinite;
         }
-        #reader__dashboard_section_csr button {
-          background-color: #2563eb !important;
-          color: white !important;
-          border-radius: 1rem !important;
-          padding: 0.75rem 1.5rem !important;
-          font-weight: 800 !important;
-          border: none !important;
-          text-transform: uppercase !important;
-          letter-spacing: 0.05em !important;
-        }
-        #reader__status_span {
-          color: #2563eb !important;
-          font-weight: 700 !important;
+        #reader video {
+          object-fit: cover !important;
+          width: 100% !important;
+          height: 100% !important;
         }
       `}</style>
     </div>
