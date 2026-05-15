@@ -26,7 +26,6 @@ export default function Scanner() {
     scanner.render(onScanSuccess, onScanFailure)
 
     function onScanSuccess(decodedText: string) {
-      // Assuming decodedText is the senior's profile ID
       setScanResult(decodedText)
       scanner.clear()
       handleScan(decodedText)
@@ -69,63 +68,96 @@ export default function Scanner() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-8 w-full max-w-sm animate-fade-in">
       {status === 'processing' && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white/90 backdrop-blur-sm">
-          <Loader2 className="h-12 w-12 animate-spin text-[#2563EB]" />
-          <p className="mt-4 font-bold text-[#1e293b]">Verifying Scan...</p>
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#3244bb]/90 backdrop-blur-md">
+          <Loader2 className="h-16 w-16 animate-spin text-[#3bc4d2]" />
+          <p className="mt-6 font-black text-xl text-white tracking-widest uppercase">Verifying Scan</p>
         </div>
       )}
 
       {status === 'success' && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white">
-          <div className="h-24 w-24 rounded-full bg-green-50 flex items-center justify-center mb-4">
-            <CheckCircle2 className="h-16 w-16 text-green-500" />
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#3244bb]">
+          <div className="h-32 w-32 rounded-full bg-[#3bc4d2]/10 flex items-center justify-center mb-6 border border-[#3bc4d2]/20 shadow-2xl shadow-[#3bc4d2]/10">
+            <CheckCircle2 className="h-20 w-20 text-[#3bc4d2]" />
           </div>
-          <h2 className="text-2xl font-bold text-[#1e293b]">Token Collected!</h2>
-          <p className="text-[#64748b] mt-2">+1 Token added to your profile</p>
+          <h2 className="text-3xl font-black text-white">Success!</h2>
+          <p className="text-[#3bc4d2] mt-2 font-bold">+1 Token Collected</p>
         </div>
       )}
 
       {status === 'error' && (
-        <div className="w-full max-w-sm rounded-3xl bg-red-50 p-6 border border-red-100 flex flex-col items-center text-center">
-          <AlertCircle className="h-12 w-12 text-red-500 mb-4" />
-          <h3 className="text-lg font-bold text-red-900">Scan Failed</h3>
-          <p className="text-red-700 mt-1 mb-6">{errorMsg}</p>
+        <div className="w-full rounded-[2.5rem] bg-red-500/5 p-8 border border-red-500/20 flex flex-col items-center text-center backdrop-blur-xl">
+          <div className="h-16 w-16 bg-red-500/10 rounded-full flex items-center justify-center mb-4">
+            <AlertCircle className="h-10 w-10 text-red-400" />
+          </div>
+          <h3 className="text-xl font-black text-red-400">Scan Failed</h3>
+          <p className="text-red-300/80 mt-2 mb-8 font-medium leading-relaxed">{errorMsg}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="w-full py-3 rounded-2xl bg-white border border-red-200 text-red-700 font-bold"
+            className="w-full py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-black active:scale-95 transition-all"
           >
             Try Again
           </button>
         </div>
       )}
 
-      <div className="relative w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-black shadow-2xl shadow-blue-200">
-        <div id="reader" className="w-full"></div>
-        <div className="absolute inset-0 pointer-events-none border-[40px] border-black/20 flex items-center justify-center">
-           <div className="w-64 h-64 border-2 border-white/50 rounded-3xl relative">
-              <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-white rounded-tl-xl"></div>
-              <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-white rounded-tr-xl"></div>
-              <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-white rounded-bl-xl"></div>
-              <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-white rounded-br-xl"></div>
-           </div>
-        </div>
-      </div>
+      {status === 'idle' && (
+        <>
+          <div className="relative w-full aspect-square overflow-hidden rounded-[3rem] bg-black shadow-2xl shadow-black/40 border-4 border-white/10">
+            <div id="reader" className="w-full h-full scale-110"></div>
+            <div className="absolute inset-0 pointer-events-none border-[30px] border-black/40 flex items-center justify-center">
+               <div className="w-full h-full border-2 border-[#3bc4d2]/50 rounded-[2rem] relative">
+                  <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#3bc4d2] rounded-tl-2xl"></div>
+                  <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-[#3bc4d2] rounded-tr-2xl"></div>
+                  <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-[#3bc4d2] rounded-bl-2xl"></div>
+                  <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#3bc4d2] rounded-br-2xl"></div>
+                  
+                  {/* Scan Line Animation */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#3bc4d2] to-transparent animate-scan-line opacity-50"></div>
+               </div>
+            </div>
+          </div>
 
-      <div className="text-center px-8">
-        <h2 className="text-xl font-bold text-[#1e293b]">Scan QR Code</h2>
-        <p className="text-[#64748b] mt-2 text-sm leading-relaxed">
-          Position the senior's QR code within the frame to collect your token.
-        </p>
-      </div>
+          <div className="text-center px-4">
+            <h2 className="text-2xl font-black text-white">Scanner</h2>
+            <p className="text-slate-400 mt-2 font-medium leading-relaxed">
+              Align the QR code within the frame to automatically collect your token.
+            </p>
+          </div>
 
-      <Link 
-        href="/"
-        className="mt-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-[#64748b]"
-      >
-        <X className="h-6 w-6" />
-      </Link>
+          <Link 
+            href="/"
+            className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5 border border-white/10 text-slate-400 active:scale-90 transition-all shadow-lg"
+          >
+            <X className="h-8 w-8" />
+          </Link>
+        </>
+      )}
+
+      <style jsx global>{`
+        @keyframes scan {
+          from { top: 0; }
+          to { top: 100%; }
+        }
+        .animate-scan-line {
+          animation: scan 2s linear infinite;
+        }
+        #reader__dashboard_section_csr button {
+          background-color: #3bc4d2 !important;
+          color: #3244bb !important;
+          border-radius: 1rem !important;
+          padding: 0.75rem 1.5rem !important;
+          font-weight: 800 !important;
+          border: none !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.05em !important;
+        }
+        #reader__status_span {
+          color: #3bc4d2 !important;
+          font-weight: 700 !important;
+        }
+      `}</style>
     </div>
   )
 }

@@ -31,45 +31,37 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
   }
 
   return (
-    <div className="flex flex-col items-center gap-8 animate-fade-in">
+    <div className="flex flex-col items-center gap-8 animate-fade-in text-white">
       <div className="w-full flex items-center justify-between mb-2">
         <Link 
           href="/"
-          className="h-12 w-12 bg-slate-100 rounded-2xl flex items-center justify-center text-[#64748b] active:scale-95 transition-all"
+          className="h-12 w-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-[#3bc4d2] active:scale-95 transition-all"
         >
           <ArrowLeft className="h-6 w-6" />
         </Link>
-        <h1 className="text-xl font-black text-[#1e293b]">My QR Code</h1>
-        <div className="w-12"></div> {/* Spacer */}
+        <h1 className="text-xl font-black text-white">My QR Code</h1>
+        <div className="w-12"></div>
       </div>
 
-      <div className="bg-white p-8 rounded-[3rem] shadow-2xl shadow-blue-100 flex flex-col items-center border border-slate-50 relative overflow-hidden">
+      <div className="bg-white/5 p-8 rounded-[3rem] shadow-2xl shadow-black/40 flex flex-col items-center border border-white/10 relative overflow-hidden backdrop-blur-xl">
         {/* Background Decoration */}
-        <div className="absolute -top-10 -right-10 h-32 w-32 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
-        <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-indigo-50 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute -top-10 -right-10 h-32 w-32 bg-[#3bc4d2]/10 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-indigo-500/10 rounded-full blur-3xl opacity-50"></div>
 
-        <div className="relative bg-white p-4 rounded-3xl shadow-inner border border-slate-100">
+        <div className="relative bg-white p-6 rounded-[2rem] shadow-inner border-8 border-white/10">
           <QRCodeSVG
             id="senior-qr"
             value={seniorId}
-            size={240}
+            size={220}
             level="H"
             includeMargin={false}
-            imageSettings={{
-              src: "/favicon.ico",
-              x: undefined,
-              y: undefined,
-              height: 40,
-              width: 40,
-              excavate: true,
-            }}
           />
         </div>
 
         <div className="mt-8 text-center">
-          <h2 className="text-2xl font-black text-[#1e293b]">{fullName}</h2>
-          <p className="text-[#94a3b8] font-medium mt-1">Student ID: {studentId}</p>
-          <div className="mt-4 bg-blue-50 text-[#2563EB] px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase">
+          <h2 className="text-2xl font-black text-white uppercase tracking-tight">{fullName}</h2>
+          <p className="text-[#3bc4d2] font-bold mt-1 text-sm">Student ID: {studentId}</p>
+          <div className="mt-6 inline-flex bg-[#3bc4d2]/10 text-[#3bc4d2] px-6 py-2 rounded-full text-xs font-black tracking-widest uppercase border border-[#3bc4d2]/20">
             Official Senior
           </div>
         </div>
@@ -78,20 +70,20 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
       <div className="grid grid-cols-2 gap-4 w-full max-w-sm">
         <button
           onClick={downloadQR}
-          className="flex items-center justify-center gap-3 bg-[#2563EB] text-white py-4 rounded-2xl font-bold shadow-lg shadow-blue-100 active:scale-95 transition-all"
+          className="flex items-center justify-center gap-3 bg-[#3bc4d2] text-[#3244bb] py-4 rounded-2xl font-black shadow-lg shadow-[#3bc4d2]/20 active:scale-95 transition-all"
         >
           <Download className="h-5 w-5" />
-          Save Image
+          Save
         </button>
         <button
-          className="flex items-center justify-center gap-3 bg-white text-[#1e293b] py-4 rounded-2xl font-bold shadow-sm border border-slate-100 active:scale-95 transition-all"
+          className="flex items-center justify-center gap-3 bg-white/5 text-white py-4 rounded-2xl font-black shadow-sm border border-white/10 active:scale-95 transition-all"
         >
-          <Share2 className="h-5 w-5 text-[#2563EB]" />
+          <Share2 className="h-5 w-5 text-[#3bc4d2]" />
           Share
         </button>
       </div>
 
-      <p className="text-center text-sm text-[#94a3b8] px-8 leading-relaxed">
+      <p className="text-center text-sm text-slate-400 px-8 leading-relaxed font-medium">
         Show this QR code to Freshmen to let them collect their orientation tokens.
       </p>
     </div>

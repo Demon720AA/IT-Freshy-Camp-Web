@@ -1,42 +1,27 @@
-import { login } from './actions'
-import { GraduationCap, Lock, User } from 'lucide-react'
-import Link from 'next/link'
+import { updatePassword } from './actions'
+import { Lock, ShieldCheck } from 'lucide-react'
 
-export default async function LoginPage({
+export default async function UpdatePasswordPage({
   searchParams,
 }: {
   searchParams: Promise<{ error?: string }>
 }) {
   const { error } = await searchParams
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#3244bb] px-6 text-white">
       <div className="w-full max-w-md animate-fade-in">
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-[#3bc4d2] shadow-xl shadow-black/20">
-            <GraduationCap className="h-10 w-10 text-[#3244bb]" />
+            <ShieldCheck className="h-10 w-10 text-[#3244bb]" />
           </div>
-          <h1 className="text-3xl font-black text-white">Freshy Camp</h1>
-          <p className="mt-2 text-[#3bc4d2] font-medium">Token Collection System</p>
+          <h1 className="text-3xl font-black text-white">New Password</h1>
+          <p className="mt-2 text-[#3bc4d2] font-medium text-sm">Secure your account with a new password</p>
         </div>
 
         <form className="space-y-4 rounded-[2.5rem] bg-white/5 p-8 shadow-2xl shadow-black/20 border border-white/10 backdrop-blur-xl">
           <div>
-            <label className="mb-2 block text-sm font-bold text-slate-300 ml-1">Student ID</label>
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
-              <input
-                id="student_id"
-                name="student_id"
-                type="text"
-                required
-                className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#3bc4d2] transition-all"
-                placeholder="e.g. 66123456"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-bold text-slate-300 ml-1">Password</label>
+            <label className="mb-2 block text-sm font-bold text-slate-300 ml-1">New Password</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
               <input
@@ -48,13 +33,20 @@ export default async function LoginPage({
                 placeholder="••••••••"
               />
             </div>
-            <div className="mt-2 flex justify-end">
-              <Link 
-                href="/forgot-password"
-                className="text-xs font-bold text-[#3bc4d2] hover:text-white transition-colors"
-              >
-                Forgot Password?
-              </Link>
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-bold text-slate-300 ml-1">Confirm Password</label>
+            <div className="relative">
+              <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+              <input
+                id="confirm_password"
+                name="confirm_password"
+                type="password"
+                required
+                className="w-full rounded-2xl border border-white/10 bg-white/5 py-4 pl-12 pr-4 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#3bc4d2] transition-all"
+                placeholder="••••••••"
+              />
             </div>
           </div>
 
@@ -66,17 +58,13 @@ export default async function LoginPage({
 
           <div className="pt-2">
             <button
-              formAction={login}
+              formAction={updatePassword}
               className="w-full rounded-2xl bg-[#3bc4d2] py-4 font-black text-[#3244bb] shadow-lg shadow-[#3bc4d2]/20 transition-all hover:brightness-110 active:scale-[0.98]"
             >
-              Login
+              Update Password
             </button>
           </div>
         </form>
-
-        <p className="mt-8 text-center text-sm text-slate-400 font-medium">
-          Thai-Nichi Institute of Technology
-        </p>
       </div>
     </div>
   )
