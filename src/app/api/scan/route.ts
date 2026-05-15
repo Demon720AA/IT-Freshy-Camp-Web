@@ -27,22 +27,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to record scan: ' + scanError.message }, { status: 500 })
     }
 
-    // Increment token count for the freshman
-    // Using an update instead of RPC for simplicity if trigger is not set up yet
-    const { data: profile, error: fetchError } = await supabase
-      .from('profiles')
-      .select('total_tokens')
-      .eq('id', user.id)
-      .single()
+    // Safely increment tokens for both the freshman and the senior using RPC
+    const { error: freshmanRpcError } = await supabase.rpc('increment_tokens', { user_id: user.id })
+    if (freshmanRpcError) throw freshmanRpcError
 
-    if (fetchError) throw fetchError
-
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({ total_tokens: (profile.total_tokens || 0) + 1 })
-      .eq('id', user.id)
-
-    if (updateError) throw updateError
+    const { error: seniorRpcError } = await supabase.rpc('increment_tokens', { user_id: senior_id })
+    if (seniorRpcError) throw seniorRpcError
 
     return NextResponse.json({ success: true })
   } catch (error: any) {

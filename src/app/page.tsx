@@ -91,16 +91,28 @@ export default async function Dashboard() {
       <div className="px-6 -mt-12">
         <div className="grid grid-cols-2 gap-4">
           {isSenior ? (
-            <Link
-              href="/senior/qr"
-              className="bg-[#2563eb] p-6 rounded-3xl shadow-xl shadow-blue-500/20 flex flex-col items-center gap-3 transition-all active:scale-95 border border-white/10 col-span-2"
-            >
-              <div className="h-14 w-14 rounded-2xl bg-white flex items-center justify-center text-[#2563eb]">
-                <QrCode className="h-7 w-7" />
-              </div>
-              <span className="font-bold text-white">My QR Code</span>
-            </Link>
+            <div className="grid grid-cols-2 gap-4 col-span-2 w-full">
+              <Link
+                href="/senior/qr"
+                className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col items-center gap-3 transition-all active:scale-95 border border-slate-50"
+              >
+                <div className="h-14 w-14 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2563eb]">
+                  <QrCode className="h-7 w-7" />
+                </div>
+                <span className="font-bold text-[#1e293b]">My QR Code</span>
+              </Link>
+              <Link
+                href="/leaderboard?tab=seniors"
+                className="bg-white p-6 rounded-3xl shadow-xl shadow-slate-200/50 flex flex-col items-center gap-3 transition-all active:scale-95 border border-slate-50"
+              >
+                <div className="h-14 w-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500">
+                  <Trophy className="h-7 w-7" />
+                </div>
+                <span className="font-bold text-[#1e293b]">Ranking</span>
+              </Link>
+            </div>
           ) : (
+
             <>
               <Link
                 href="/scan"
