@@ -5,7 +5,7 @@ This document serves as the primary knowledge base and operational guide for mai
 ## 1. Project Core Identity
 - **Purpose**: A mobile-first web app for university freshmen to collect tokens by scanning senior QR codes.
 - **Goal**: Gamify the orientation experience with real-time leaderboards and scan history.
-- **Theme**: Custom Modern Palette (Primary #3bc4d2, Secondary #3244bb).
+- **Theme**: TNI-style Modern Blue (Primary #2563eb, Background #f8fafc).
 
 ## 2. Technical Stack & Conventions
 ### Framework & Runtime
@@ -56,8 +56,8 @@ This document serves as the primary knowledge base and operational guide for mai
 ## 5. UI/UX Guidelines
 - **Mobile-First**: Max-width of `448px` (max-w-md) centered on the screen with a shadow.
 - **Color Palette**: 
-    - **Primary**: `#3bc4d2` (Teal/Blue)
-    - **Secondary/Background**: `#3244bb` (Deep Blue)
+    - **Primary**: `#2563eb` (Royal Blue)
+    - **Secondary/Background**: `#f8fafc` (Slate 50)
 - **Icons**: Lucide React.
 - **QR Generation**: `qrcode.react` (SVG mode) with download support for Seniors.
 - **QR Scanning**: `html5-qrcode` with a custom full-screen overlay and success/error states.
