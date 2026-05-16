@@ -26,8 +26,10 @@ This document serves as the primary knowledge base and operational guide for mai
 - **Authentication**: Pre-seeded accounts. Login via `student_id` (converted to email internally) and password.
 - **Password Management**:
     - **Reset Password**: Standard Supabase flow using `resetPasswordForEmail`.
-    - **Account Seeding**: Use `auth.admin.inviteUserByEmail()` for a secure first-password experience.
+    - **Email Rate Limits**: Default Supabase limit is 3/hour. Use **Custom SMTP (e.g., Resend)** to bypass this.
+    - **URL Configuration**: Must set "Site URL" and "Redirect URLs" in Supabase Dashboard to match the environment (e.g., `http://localhost:3000`).
     - **Callback**: `/auth/callback` handles all auth redirects and token exchanges.
+- **Admin Tasks**: Use `src/utils/supabase/admin.ts` with the `SERVICE_ROLE_KEY` for server-side tasks that require bypassing RLS (e.g., forced resets).
 - **Session Middleware**: Located in `src/utils/supabase/middleware.ts`, handles token refreshing and route protection.
 
 ## 3. Business Logic & Role System
@@ -37,9 +39,13 @@ This document serves as the primary knowledge base and operational guide for mai
    - Accesses: Dashboard (Token count), Scanner, Leaderboard, History.
 2. **`SENIOR`**:
    - Provides QR codes for scanning.
-   - Accesses: Dashboard (Scan count), "My QR" page.
+   - Accesses: Dashboard (Total scan count), "My QR" page, Recent scan history.
 3. **`ADMIN`**:
    - Oversight and account seeding (standard database access).
+
+### Atomic Increments
+- **RPC Function**: Use `increment_tokens(user_id)` to update token counts.
+- **Security**: The function must be created with `SECURITY DEFINER` in SQL to allow Freshmen to update Senior profiles without direct table permissions.
 
 ### Anti-Cheat Logic
 - **Database Enforcement**: The `scans` table has a `UNIQUE(freshman_id, senior_id)` constraint.
@@ -50,11 +56,13 @@ This document serves as the primary knowledge base and operational guide for mai
 - **`scans`**: Records every successful interaction between a Freshman and a Senior.
 - **RLS (Row Level Security)**: 
   - Everyone can see profiles.
-  - Users can only see their own scans.
+  - Users can update their own profile.
+  - **Scans Visibility**: Users can see scans where they are either the `freshman_id` or the `senior_id`.
   - Only Freshmen can insert new scans.
 
 ## 5. UI/UX Guidelines
 - **Mobile-First**: Max-width of `448px` (max-w-md) centered on the screen with a shadow.
+- **Dynamic Updates**: Use `export const dynamic = 'force-dynamic'` on dashboard pages to ensure real-time token and scan history updates.
 - **Color Palette**: 
     - **Primary**: `#2563eb` (Royal Blue)
     - **Secondary/Background**: `#f8fafc` (Slate 50)
@@ -67,10 +75,14 @@ This document serves as the primary knowledge base and operational guide for mai
 The following must be set in `.env.local` (locally) and Vercel (production):
 - `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase Project URL.
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase Public/Anon API key.
+- `SUPABASE_SERVICE_ROLE_KEY`: Secret key for admin-level server tasks (Keep private!).
 
 ### Common Troubleshooting
-- **Invalid supabaseUrl**: Ensure environment variables are correctly loaded and don't contain placeholder text like "your-supabase-url".
+- **Invalid supabaseUrl**: Ensure environment variables are correctly loaded.
 - **Middleware/Proxy Errors**: If "Missing expected function export name" occurs, verify `src/proxy.ts` exports an `async function proxy`.
+- **Email Not Arriving**: Check Supabase "Email Rate Limit" (Default 3/hr). Switch to Custom SMTP (Resend).
+- **Senior Count Not Updating**: Ensure the `increment_tokens` SQL function uses `SECURITY DEFINER`.
+- **Senior Can't See Recent Scans**: Ensure the `scans` RLS policy allows `auth.uid() = senior_id`.
 - **Authentication Failed**: Ensure the login format matches the seeded data (e.g., `student_id@tni.ac.th`).
 
 ## 7. Operational Workflow for Agents
