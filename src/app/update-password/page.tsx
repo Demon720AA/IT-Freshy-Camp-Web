@@ -1,11 +1,21 @@
 import { updatePassword } from './actions'
 import { Lock, ShieldCheck } from 'lucide-react'
+import { SubmitButton } from '@/components/SubmitButton'
+import { createClient } from '@/utils/supabase/server'
+import { redirect } from 'next/navigation'
 
 export default async function UpdatePasswordPage({
   searchParams,
 }: {
   searchParams: Promise<{ error?: string }>
 }) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return redirect('/login?error=Please use the reset link from your email')
+  }
+
   const { error } = await searchParams
 
   return (
@@ -19,7 +29,10 @@ export default async function UpdatePasswordPage({
           <p className="mt-2 text-[#2563eb] font-medium text-sm">Secure your account with a new password</p>
         </div>
 
-        <form className="space-y-4 rounded-[2.5rem] bg-white p-8 shadow-2xl shadow-black/5 border border-slate-100">
+        <form 
+          action={updatePassword}
+          className="space-y-4 rounded-[2.5rem] bg-white p-8 shadow-2xl shadow-black/5 border border-slate-100"
+        >
           <div>
             <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">New Password</label>
             <div className="relative">
@@ -57,12 +70,7 @@ export default async function UpdatePasswordPage({
           )}
 
           <div className="pt-2">
-            <button
-              formAction={updatePassword}
-              className="w-full rounded-2xl bg-[#2563eb] py-4 font-black text-white shadow-lg shadow-blue-500/20 transition-all hover:brightness-110 active:scale-[0.98]"
-            >
-              Update Password
-            </button>
+            <SubmitButton label="Update Password" loadingLabel="Updating..." />
           </div>
         </form>
       </div>

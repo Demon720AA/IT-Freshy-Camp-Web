@@ -1,9 +1,14 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
-import { QrCode, History, Trophy, User as UserIcon, LogOut } from 'lucide-react'
+import { QrCode, History, Trophy, User as UserIcon, LogOut, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 
-export default async function Dashboard() {
+export default async function Dashboard({
+  searchParams,
+}: {
+  searchParams: Promise<{ success?: string; error?: string }>
+}) {
+  const { success, error: queryError } = await searchParams
   const supabase = await createClient()
 
   const {
@@ -49,6 +54,29 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#1e293b]">
+      {/* Toast Messages */}
+      {success && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-md animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="bg-green-500 text-white px-6 py-4 rounded-2xl shadow-2xl shadow-green-500/20 flex items-center gap-3 border border-green-400/20">
+            <div className="h-8 w-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <p className="font-bold text-sm">{success}</p>
+          </div>
+        </div>
+      )}
+
+      {queryError && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-md animate-in fade-in slide-in-from-top-4 duration-300">
+          <div className="bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl shadow-red-500/20 flex items-center gap-3 border border-red-400/20">
+            <div className="h-8 w-8 rounded-xl bg-white/20 flex items-center justify-center">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <p className="font-bold text-sm">{queryError}</p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-[#2563eb] px-6 pt-12 pb-24 rounded-b-[3rem] shadow-xl shadow-blue-500/20">
         <div className="flex items-center justify-between mb-8">

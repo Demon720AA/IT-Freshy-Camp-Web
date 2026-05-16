@@ -1,7 +1,7 @@
 import { login } from './actions'
 import { GraduationCap, Lock, User } from 'lucide-react'
 import Link from 'next/link'
-import { SubmitButton } from './submit-button'
+import { SubmitButton } from '@/components/SubmitButton'
 
 export default async function LoginPage({
   searchParams,
@@ -69,7 +69,7 @@ export default async function LoginPage({
           )}
 
           <div className="pt-2">
-            <SubmitButton label="Login" />
+            <SubmitButton label="Login" loadingLabel="Logging in..." />
           </div>
         </form>
 

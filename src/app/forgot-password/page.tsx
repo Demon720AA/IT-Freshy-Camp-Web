@@ -1,6 +1,7 @@
 import { forgotPassword } from './actions'
-import { KeyRound, ArrowLeft, Mail } from 'lucide-react'
+import { KeyRound, ArrowLeft, User } from 'lucide-react'
 import Link from 'next/link'
+import { SubmitButton } from '@/components/SubmitButton'
 
 export default async function ForgotPasswordPage({
   searchParams,
@@ -27,11 +28,14 @@ export default async function ForgotPasswordPage({
           <p className="mt-2 text-[#2563eb] font-medium text-sm">Enter your Student ID to receive a reset link</p>
         </div>
 
-        <form className="space-y-4 rounded-[2.5rem] bg-white p-8 shadow-2xl shadow-black/5 border border-slate-100">
+        <form 
+          action={forgotPassword}
+          className="space-y-4 rounded-[2.5rem] bg-white p-8 shadow-2xl shadow-black/5 border border-slate-100"
+        >
           <div>
             <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">Student ID</label>
             <div className="relative">
-              <Mail className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#64748b]" />
+              <User className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#64748b]" />
               <input
                 id="student_id"
                 name="student_id"
@@ -56,12 +60,7 @@ export default async function ForgotPasswordPage({
           )}
 
           <div className="pt-2">
-            <button
-              formAction={forgotPassword}
-              className="w-full rounded-2xl bg-[#2563eb] py-4 font-black text-white shadow-lg shadow-blue-500/20 transition-all hover:brightness-110 active:scale-[0.98]"
-            >
-              Send Reset Link
-            </button>
+            <SubmitButton label="Send Reset Link" loadingLabel="Sending..." />
           </div>
         </form>
 
