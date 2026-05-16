@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation'
 import { QrCode, History, Trophy, User as UserIcon, LogOut, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Dashboard({
   searchParams,
 }: {
@@ -102,7 +104,7 @@ export default async function Dashboard({
               {isSenior ? 'Freshmen Scanned' : 'Your Tokens'}
             </p>
             <p className="text-white text-4xl font-black mt-1">
-              {isSenior ? (scans.length >= 5 ? '5+' : scans.length) : profile.total_tokens}
+              {profile.total_tokens}
             </p>
           </div>
           <div className="h-16 w-16 bg-white/20 rounded-2xl flex items-center justify-center shadow-inner">

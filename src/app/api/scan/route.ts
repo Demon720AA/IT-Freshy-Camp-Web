@@ -28,11 +28,19 @@ export async function POST(request: Request) {
     }
 
     // Safely increment tokens for both the freshman and the senior using RPC
+    console.log(`Incrementing tokens for Freshman: ${user.id}`)
     const { error: freshmanRpcError } = await supabase.rpc('increment_tokens', { user_id: user.id })
-    if (freshmanRpcError) throw freshmanRpcError
+    if (freshmanRpcError) {
+      console.error('Freshman token update failed:', freshmanRpcError)
+      throw freshmanRpcError
+    }
 
+    console.log(`Incrementing tokens for Senior: ${senior_id}`)
     const { error: seniorRpcError } = await supabase.rpc('increment_tokens', { user_id: senior_id })
-    if (seniorRpcError) throw seniorRpcError
+    if (seniorRpcError) {
+      console.error('Senior token update failed:', seniorRpcError)
+      throw seniorRpcError
+    }
 
     return NextResponse.json({ success: true })
   } catch (error: any) {
