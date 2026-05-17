@@ -10,13 +10,19 @@ export async function sendResetOtp(formData: FormData) {
   }
 
   const email = `${studentId}@tni.ac.th`
-  const supabase = await createClient()
+  
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.auth.resetPasswordForEmail(email)
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email)
-
-  if (error) {
-    console.error('Password reset error:', error)
-    return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}`)
+    if (error) {
+      console.error('Password reset error:', error)
+      return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}`)
+    }
+  } catch (e) {
+    if (e instanceof Error && e.message.includes('NEXT_REDIRECT')) throw e
+    console.error('Unexpected error in sendResetOtp:', e)
+    return redirect(`/forgot-password?error=An unexpected error occurred. Please check your Supabase SMTP settings.`)
   }
 
   return redirect(`/forgot-password?success=OTP sent to your email&email=${encodeURIComponent(email)}`)
@@ -30,16 +36,22 @@ export async function verifyResetOtp(formData: FormData) {
     return redirect(`/forgot-password?error=Email and OTP are required&email=${encodeURIComponent(email || '')}`)
   }
 
-  const supabase = await createClient()
-  const { error } = await supabase.auth.verifyOtp({
-    email,
-    token,
-    type: 'recovery',
-  })
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'recovery',
+    })
 
-  if (error) {
-    console.error('OTP verification error:', error)
-    return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}&email=${encodeURIComponent(email)}`)
+    if (error) {
+      console.error('OTP verification error:', error)
+      return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}&email=${encodeURIComponent(email)}`)
+    }
+  } catch (e) {
+    if (e instanceof Error && e.message.includes('NEXT_REDIRECT')) throw e
+    console.error('Unexpected error in verifyResetOtp:', e)
+    return redirect(`/forgot-password?error=An unexpected error occurred during verification.&email=${encodeURIComponent(email)}`)
   }
 
   return redirect('/update-password')

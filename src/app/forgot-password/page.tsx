@@ -92,13 +92,12 @@ export default async function ForgotPasswordPage({
               <SubmitButton label="Verify & Reset" loadingLabel="Verifying..." />
             </div>
             
-            <button 
-              type="button"
-              onClick={() => window.location.href = '/forgot-password'}
-              className="w-full py-2 text-sm text-[#64748b] font-medium hover:text-[#2563eb] transition-colors"
+            <Link 
+              href="/forgot-password"
+              className="block w-full py-2 text-sm text-center text-[#64748b] font-medium hover:text-[#2563eb] transition-colors"
             >
               Didn&apos;t receive code? Try again
-            </button>
+            </Link>
           </form>
         )}
 
