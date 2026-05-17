@@ -13,8 +13,8 @@ export async function forgotPassword(formData: FormData) {
   const email = `${studentId}@tni.ac.th`
   const supabase = await createClient()
   const headerList = await headers()
-  const host = headerList.get('host')
-  const proto = headerList.get('x-forwarded-proto') || 'http'
+  const host = headerList.get('x-forwarded-host') || headerList.get('host') || ''
+  const proto = headerList.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https')
   const origin = `${proto}://${host}`
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {

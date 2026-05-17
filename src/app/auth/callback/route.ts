@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextResponse } from 'next/server'
+import { headers } from 'next/headers'
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
@@ -11,22 +12,26 @@ export async function GET(request: Request) {
     const supabase = await createClient()
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      const forwardedHost = request.headers.get('x-forwarded-host')
-      const isLocalEnv = process.env.NODE_ENV === 'development'
+      const headerList = await headers()
+      const host = headerList.get('x-forwarded-host') || headerList.get('host') || origin.split('://')[1]
+      const proto = headerList.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https')
+      const finalOrigin = `${proto}://${host}`
       
-      if (isLocalEnv) {
-        return NextResponse.redirect(`${origin}${next}`)
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`)
-      } else {
-        return NextResponse.redirect(`${origin}${next}`)
-      }
+      return NextResponse.redirect(`${finalOrigin}${next}`)
     } else {
       console.error('Auth callback error:', error.message)
+      const headerList = await headers()
+      const host = headerList.get('x-forwarded-host') || headerList.get('host') || origin.split('://')[1]
+      const proto = headerList.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https')
+      const finalOrigin = `${proto}://${host}`
+      return NextResponse.redirect(`${finalOrigin}/login?error=${encodeURIComponent(error.message)}`)
     }
   }
 
-  // If there is an error or no code, redirect to login with the error
-  console.error('Auth callback failed: No code or exchange failed')
-  return NextResponse.redirect(`${origin}/login?error=Authentication failed`)
+  // If there is no code, redirect to login
+  const headerList = await headers()
+  const host = headerList.get('x-forwarded-host') || headerList.get('host') || origin.split('://')[1]
+  const proto = headerList.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https')
+  const finalOrigin = `${proto}://${host}`
+  return NextResponse.redirect(`${finalOrigin}/login?error=No authentication code provided`)
 }

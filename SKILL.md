@@ -27,7 +27,10 @@ This document serves as the primary knowledge base and operational guide for mai
 - **Password Management**:
     - **Reset Password**: Standard Supabase flow using `resetPasswordForEmail`.
     - **Email Rate Limits**: Default Supabase limit is 3/hour. Use **Custom SMTP (e.g., Resend)** to bypass this.
-    - **URL Configuration**: Must set "Site URL" and "Redirect URLs" in Supabase Dashboard to match the environment (e.g., `http://localhost:3000`).
+    - **URL Configuration**: Must set "Site URL" and "Redirect URLs" in Supabase Dashboard to match the environment.
+    - **Development**: Site URL = `http://localhost:3000`
+    - **Production**: Site URL = `https://your-app.vercel.app`
+    - **Redirect URLs**: Add `https://your-app.vercel.app/**` to allow all paths.
     - **Callback**: `/auth/callback` handles all auth redirects and token exchanges.
 - **Admin Tasks**: Use `src/utils/supabase/admin.ts` with the `SERVICE_ROLE_KEY` for server-side tasks that require bypassing RLS (e.g., forced resets).
 - **Session Middleware**: Located in `src/utils/supabase/middleware.ts`, handles token refreshing and route protection.
