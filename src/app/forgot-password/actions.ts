@@ -10,6 +10,7 @@ export async function sendResetOtp(formData: FormData) {
   }
 
   const email = `${studentId}@tni.ac.th`
+  let errorMsg = ''
   
   try {
     const supabase = await createClient()
@@ -17,12 +18,15 @@ export async function sendResetOtp(formData: FormData) {
 
     if (error) {
       console.error('Password reset error:', error)
-      return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}`)
+      errorMsg = error.message
     }
   } catch (e) {
-    if (e instanceof Error && e.message.includes('NEXT_REDIRECT')) throw e
     console.error('Unexpected error in sendResetOtp:', e)
-    return redirect(`/forgot-password?error=An unexpected error occurred. Please check your Supabase SMTP settings.`)
+    errorMsg = 'An unexpected error occurred. Please check your Supabase SMTP settings.'
+  }
+
+  if (errorMsg) {
+    return redirect(`/forgot-password?error=${encodeURIComponent(errorMsg)}`)
   }
 
   return redirect(`/forgot-password?success=OTP sent to your email&email=${encodeURIComponent(email)}`)
@@ -36,6 +40,7 @@ export async function verifyResetOtp(formData: FormData) {
     return redirect(`/forgot-password?error=Email and OTP are required&email=${encodeURIComponent(email || '')}`)
   }
 
+  let errorMsg = ''
   try {
     const supabase = await createClient()
     const { error } = await supabase.auth.verifyOtp({
@@ -46,12 +51,15 @@ export async function verifyResetOtp(formData: FormData) {
 
     if (error) {
       console.error('OTP verification error:', error)
-      return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}&email=${encodeURIComponent(email)}`)
+      errorMsg = error.message
     }
   } catch (e) {
-    if (e instanceof Error && e.message.includes('NEXT_REDIRECT')) throw e
     console.error('Unexpected error in verifyResetOtp:', e)
-    return redirect(`/forgot-password?error=An unexpected error occurred during verification.&email=${encodeURIComponent(email)}`)
+    errorMsg = 'An unexpected error occurred during verification.'
+  }
+
+  if (errorMsg) {
+    return redirect(`/forgot-password?error=${encodeURIComponent(errorMsg)}&email=${encodeURIComponent(email)}`)
   }
 
   return redirect('/update-password')
