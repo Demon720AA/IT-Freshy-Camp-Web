@@ -1,10 +1,9 @@
 'use server'
 
 import { createClient } from '@/utils/supabase/server'
-import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export async function forgotPassword(formData: FormData) {
+export async function sendResetOtp(formData: FormData) {
   const studentId = (formData.get('student_id') as string)?.trim()
   if (!studentId) {
     return redirect('/forgot-password?error=Student ID is required')
@@ -12,19 +11,36 @@ export async function forgotPassword(formData: FormData) {
 
   const email = `${studentId}@tni.ac.th`
   const supabase = await createClient()
-  const headerList = await headers()
-  const host = headerList.get('x-forwarded-host') || headerList.get('host') || ''
-  const proto = headerList.get('x-forwarded-proto') || (host.includes('localhost') ? 'http' : 'https')
-  const origin = `${proto}://${host}`
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?next=/update-password`,
-  })
+  const { error } = await supabase.auth.resetPasswordForEmail(email)
 
   if (error) {
     console.error('Password reset error:', error)
     return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}`)
   }
 
-  return redirect('/forgot-password?success=Check your email for the reset link. (If you set up Custom SMTP, there is no hourly limit)')
+  return redirect(`/forgot-password?success=OTP sent to your email&email=${encodeURIComponent(email)}`)
+}
+
+export async function verifyResetOtp(formData: FormData) {
+  const email = formData.get('email') as string
+  const token = formData.get('token') as string
+
+  if (!email || !token) {
+    return redirect(`/forgot-password?error=Email and OTP are required&email=${encodeURIComponent(email || '')}`)
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: 'recovery',
+  })
+
+  if (error) {
+    console.error('OTP verification error:', error)
+    return redirect(`/forgot-password?error=${encodeURIComponent(error.message)}&email=${encodeURIComponent(email)}`)
+  }
+
+  return redirect('/update-password')
 }
