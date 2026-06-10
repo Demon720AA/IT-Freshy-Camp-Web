@@ -60,8 +60,7 @@ CREATE TABLE profiles (
   student_id TEXT UNIQUE NOT NULL,
   full_name TEXT NOT NULL,
   role TEXT CHECK (role IN ('FRESHMAN', 'SENIOR', 'ADMIN')) NOT NULL,
-  total_tokens INTEGER DEFAULT 0,
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+  total_tokens INTEGER DEFAULT 0
 );
 
 -- 2. Create Scans Table
