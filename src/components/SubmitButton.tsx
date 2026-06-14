@@ -16,7 +16,7 @@ export function SubmitButton({ label, loadingLabel, className }: SubmitButtonPro
     <button
       type="submit"
       disabled={pending}
-      className={className || "w-full rounded-2xl bg-[#2563eb] py-4 font-black text-white shadow-lg shadow-blue-500/20 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"}
+      className={className || "w-full rounded-2xl bg-[#3244bb] py-4 font-black text-white shadow-lg shadow-blue-500/20 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"}
     >
       {pending ? (
         <>
