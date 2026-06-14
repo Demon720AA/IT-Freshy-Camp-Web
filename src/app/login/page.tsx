@@ -11,7 +11,8 @@ export default async function LoginPage({
 }) {
   const { error } = await searchParams
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]">
+    <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/Bg.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
+    {/* <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]"> */}
       <div className="w-full max-w-md animate-fade-in">
         <div className="mb-12 text-center flex flex-col items-center">
           <div className="mb-8 relative">
@@ -25,9 +26,9 @@ export default async function LoginPage({
               priority 
             />
           </div>
-          <div className="inline-block bg-blue-100 px-6 py-1.5 rounded-full">
+          {/* <div className="inline-block bg-blue-100 px-6 py-1.5 rounded-full">
             <p className="text-[#2563eb] font-black text-xs uppercase tracking-[0.25em]">Token Collection System</p>
-          </div>
+          </div> */}
         </div>
 
         <form 
@@ -83,9 +84,9 @@ export default async function LoginPage({
           </div>
         </form>
 
-        <p className="mt-8 text-center text-sm text-[#64748b] font-medium">
+        {/* <p className="mt-8 text-center text-sm text-[#64748b] font-medium">
           Thai-Nichi Institute of Technology
-        </p>
+        </p> */}
       </div>
     </div>
   )
