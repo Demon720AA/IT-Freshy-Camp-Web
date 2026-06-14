@@ -1,8 +1,9 @@
 'use client'
 
 import { QRCodeSVG } from 'qrcode.react'
-import { ArrowLeft, Download, Share2, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, Download, Share2, ShieldCheck, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
+import { useState } from 'react'
 
 interface SeniorQRProps {
   seniorId: string
@@ -11,6 +12,15 @@ interface SeniorQRProps {
 }
 
 export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProps) {
+  const [refreshKey, setRefreshKey] = useState(0)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+
+  const handleRefresh = () => {
+    setIsRefreshing(true)
+    setRefreshKey(prev => prev + 1)
+    setTimeout(() => setIsRefreshing(false), 500)
+  }
+
   const downloadQR = () => {
     const svg = document.getElementById('senior-qr') as HTMLElement
     const svgData = new XMLSerializer().serializeToString(svg)
@@ -40,10 +50,16 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
           <ArrowLeft className="h-6 w-6" />
         </Link>
         <h1 className="text-xl font-black uppercase tracking-widest text-[#1e293b]">Senior QR</h1>
-        <div className="w-12"></div>
+        <button 
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+          className={`h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-[#2563eb] shadow-sm border border-slate-100 active:scale-90 transition-all ${isRefreshing ? 'opacity-50' : ''}`}
+        >
+          <RefreshCw className={`h-6 w-6 ${isRefreshing ? 'animate-spin' : ''}`} />
+        </button>
       </div>
 
-      <div className="bg-white p-10 rounded-[4rem] shadow-2xl shadow-blue-900/10 flex flex-col items-center border border-slate-50 relative overflow-hidden w-full max-w-sm">
+      <div key={refreshKey} className="bg-white p-10 rounded-[4rem] shadow-2xl shadow-blue-900/10 flex flex-col items-center border border-slate-50 relative overflow-hidden w-full max-w-sm animate-fade-in">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -mr-16 -mt-16 blur-2xl" />
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/5 rounded-full -ml-16 -mb-16 blur-2xl" />
