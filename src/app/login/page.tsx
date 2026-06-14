@@ -13,21 +13,20 @@ export default async function LoginPage({
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]">
       <div className="w-full max-w-md animate-fade-in">
-        <div className="mb-10 text-center flex flex-col items-center">
-          <div className="mb-6 relative">
+        <div className="mb-12 text-center flex flex-col items-center">
+          <div className="mb-8 relative">
             <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full scale-150" />
             <Image 
               src="/PIC/Freshy Camp LOGO.png" 
               alt="Freshy Camp Logo" 
-              width={160} 
-              height={160} 
+              width={240} 
+              height={240} 
               className="relative z-10 drop-shadow-2xl"
               priority 
             />
           </div>
-          <h1 className="text-4xl font-black text-[#1e293b] tracking-tight">Freshy Camp</h1>
-          <div className="mt-2 inline-block bg-blue-100 px-4 py-1 rounded-full">
-            <p className="text-[#2563eb] font-black text-[10px] uppercase tracking-[0.2em]">Token Collection System</p>
+          <div className="inline-block bg-blue-100 px-6 py-1.5 rounded-full">
+            <p className="text-[#2563eb] font-black text-xs uppercase tracking-[0.25em]">Token Collection System</p>
           </div>
         </div>
 
