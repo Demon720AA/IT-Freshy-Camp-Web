@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode'
 import { useRouter } from 'next/navigation'
-import { AlertCircle, CheckCircle2, Loader2, X, RefreshCw } from 'lucide-react'
+import { AlertCircle, Loader2, X, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Scanner() {
   const [status, setStatus] = useState<'idle' | 'scanning' | 'processing' | 'success' | 'error'>('idle')
@@ -13,64 +14,13 @@ export default function Scanner() {
   const router = useRouter()
   const scannerRef = useRef<Html5Qrcode | null>(null)
 
-  const stopScanner = async () => {
+  const stopScanner = useCallback(async () => {
     if (scannerRef.current && scannerRef.current.isScanning) {
       await scannerRef.current.stop()
     }
-  }
-
-  const startScanner = async (mode: 'user' | 'environment') => {
-    try {
-      if (!scannerRef.current) {
-        scannerRef.current = new Html5Qrcode('reader', {
-          verbose: false,
-          formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE]
-        })
-      }
-
-      await stopScanner()
-
-      await scannerRef.current.start(
-        { facingMode: mode },
-        {
-          fps: 10,
-          qrbox: { width: 250, height: 250 },
-          aspectRatio: 1.0,
-        },
-        onScanSuccess,
-        onScanFailure
-      )
-      setStatus('idle') // We use 'idle' to show the camera view
-    } catch (err) {
-      console.error("Failed to start scanner", err)
-      setStatus('error')
-      setErrorMsg("Camera access denied or not found")
-    }
-  }
-
-  useEffect(() => {
-    startScanner(facingMode)
-
-    return () => {
-      stopScanner().catch(err => console.error("Failed to stop scanner", err))
-    }
   }, [])
 
-  const toggleCamera = async () => {
-    const newMode = facingMode === 'user' ? 'environment' : 'user'
-    setFacingMode(newMode)
-    await startScanner(newMode)
-  }
-
-  function onScanSuccess(decodedText: string) {
-    stopScanner().then(() => handleScan(decodedText))
-  }
-
-  function onScanFailure(error: any) {
-    // console.warn(`Code scan error = ${error}`);
-  }
-
-  const handleScan = async (seniorId: string) => {
+  const handleScan = useCallback(async (seniorId: string) => {
     setStatus('processing')
     try {
       const response = await fetch('/api/scan', {
@@ -92,9 +42,69 @@ export default function Scanner() {
         setErrorMsg(data.error || 'Something went wrong')
       }
     } catch (err) {
+      console.error("Scan error:", err)
       setStatus('error')
       setErrorMsg('Failed to process scan')
     }
+  }, [router])
+
+  const onScanSuccess = useCallback((decodedText: string) => {
+    stopScanner().then(() => handleScan(decodedText))
+  }, [stopScanner, handleScan])
+
+  const onScanFailure = useCallback(() => {
+    // console.warn(`Code scan error = ${error}`);
+  }, [])
+
+  const startScanner = useCallback(async (mode: 'user' | 'environment') => {
+    try {
+      if (!scannerRef.current) {
+        scannerRef.current = new Html5Qrcode('reader', {
+          verbose: false,
+          formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE]
+        })
+      }
+
+      await stopScanner()
+
+      await scannerRef.current.start(
+        { facingMode: mode },
+        {
+          fps: 10,
+          qrbox: { width: 250, height: 250 },
+          aspectRatio: 1.0,
+        },
+        onScanSuccess,
+        onScanFailure
+      )
+      setStatus('idle')
+    } catch (err) {
+      console.error("Failed to start scanner", err)
+      setStatus('error')
+      setErrorMsg("Camera access denied or not found")
+    }
+  }, [stopScanner, onScanSuccess, onScanFailure])
+
+  useEffect(() => {
+    let isMounted = true;
+    
+    const initScanner = async () => {
+      if (isMounted) {
+        await startScanner(facingMode)
+      }
+    }
+    
+    initScanner()
+
+    return () => {
+      isMounted = false;
+      stopScanner().catch(err => console.error("Failed to stop scanner", err))
+    }
+  }, [facingMode, startScanner, stopScanner])
+
+  const toggleCamera = async () => {
+    const newMode = facingMode === 'user' ? 'environment' : 'user'
+    setFacingMode(newMode)
   }
 
   return (
@@ -107,12 +117,22 @@ export default function Scanner() {
       )}
 
       {status === 'success' && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f8fafc]">
-          <div className="h-32 w-32 rounded-full bg-[#2563eb]/10 flex items-center justify-center mb-6 border border-[#2563eb]/20 shadow-2xl shadow-[#2563eb]/10">
-            <CheckCircle2 className="h-20 w-20 text-[#2563eb]" />
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#f8fafc] px-8 text-center">
+          <div className="relative mb-10 scale-125">
+            <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full scale-150 animate-pulse" />
+            <Image 
+              src="/Ref/✅.png" 
+              alt="Success" 
+              width={200} 
+              height={200} 
+              className="relative z-10 drop-shadow-[0_20px_50px_rgba(37,99,235,0.3)]"
+            />
           </div>
-          <h2 className="text-3xl font-black text-[#1e293b]">Success!</h2>
-          <p className="text-[#2563eb] mt-2 font-bold">+1 Token Collected</p>
+          <h2 className="text-4xl font-black text-[#1e293b] tracking-tight">Verified!</h2>
+          <div className="mt-4 bg-blue-100 px-6 py-2 rounded-full">
+            <p className="text-[#2563eb] font-black text-xs uppercase tracking-[0.2em]">+1 Token Collected</p>
+          </div>
+          <p className="mt-8 text-[#64748b] font-bold text-sm">Returning to dashboard...</p>
         </div>
       )}
 

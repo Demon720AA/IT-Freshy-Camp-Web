@@ -28,8 +28,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-slate-100`}>
-        <div className="mx-auto max-w-md min-h-screen bg-slate-50 shadow-2xl shadow-slate-200">
+      <body className={`${inter.className} antialiased bg-slate-200/50`}>
+        <div className="mx-auto max-w-md min-h-screen bg-[#f8fafc] shadow-[0_0_100px_rgba(0,0,0,0.1)] relative">
           {children}
         </div>
       </body>

@@ -1,6 +1,7 @@
 import { login } from './actions'
-import { GraduationCap, Lock, User } from 'lucide-react'
+import { Lock, User } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { SubmitButton } from '@/components/SubmitButton'
 
 export default async function LoginPage({
@@ -12,17 +13,27 @@ export default async function LoginPage({
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]">
       <div className="w-full max-w-md animate-fade-in">
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-[#2563eb] shadow-xl shadow-blue-500/20">
-            <GraduationCap className="h-10 w-10 text-white" />
+        <div className="mb-10 text-center flex flex-col items-center">
+          <div className="mb-6 relative">
+            <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full scale-150" />
+            <Image 
+              src="/PIC/Freshy Camp LOGO.png" 
+              alt="Freshy Camp Logo" 
+              width={160} 
+              height={160} 
+              className="relative z-10 drop-shadow-2xl"
+              priority 
+            />
           </div>
-          <h1 className="text-3xl font-black text-[#1e293b]">Freshy Camp</h1>
-          <p className="mt-2 text-[#2563eb] font-medium">Token Collection System</p>
+          <h1 className="text-4xl font-black text-[#1e293b] tracking-tight">Freshy Camp</h1>
+          <div className="mt-2 inline-block bg-blue-100 px-4 py-1 rounded-full">
+            <p className="text-[#2563eb] font-black text-[10px] uppercase tracking-[0.2em]">Token Collection System</p>
+          </div>
         </div>
 
         <form 
           action={login}
-          className="space-y-4 rounded-[2.5rem] bg-white p-8 shadow-2xl shadow-black/5 border border-slate-100"
+          className="space-y-5 rounded-[3rem] bg-white p-10 shadow-2xl shadow-blue-900/5 border border-slate-100"
         >
           <div>
             <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">Student ID</label>
