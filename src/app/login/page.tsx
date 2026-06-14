@@ -66,7 +66,7 @@ export default async function LoginPage({
             <div className="mt-2 flex justify-end">
               <Link 
                 href="/forgot-password"
-                className="text-xs font-bold text-[#2563eb] hover:text-[#1d4ed8] transition-colors"
+                className="text-xs font-bold text-[#3244bb] hover:text-[#1d4ed8] transition-colors"
               >
                 Forgot Password?
               </Link>

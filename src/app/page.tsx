@@ -86,7 +86,7 @@ export default async function Dashboard({
       )}
 
       {/* Header */}
-      <div className="bg-[#2563eb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
+      <div className="bg-[#3244bb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/20 rounded-full -ml-10 -mb-10 blur-2xl" />
         
@@ -121,7 +121,7 @@ export default async function Dashboard({
           </div>
           <div className="h-20 w-20 bg-white rounded-3xl flex items-center justify-center shadow-2xl shadow-blue-900/20 transform rotate-3">
             {isSenior ? (
-              <QrCode className="text-[#2563eb] h-10 w-10" />
+              <QrCode className="text-[#3244bb] h-10 w-10" />
             ) : (
               <Image src="/PIC/IT_Token.png" alt="Token" width={60} height={60} className="object-contain" />
             )}
@@ -138,7 +138,7 @@ export default async function Dashboard({
                 href="/senior/qr"
                 className="bg-white p-7 rounded-[2.5rem] shadow-xl shadow-blue-900/5 flex flex-col items-center gap-4 transition-all active:scale-95 border border-slate-50 group hover:border-blue-100"
               >
-                <div className="h-16 w-16 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2563eb] group-hover:scale-110 transition-transform">
+                <div className="h-16 w-16 rounded-2xl bg-blue-50 flex items-center justify-center text-[#3244bb] group-hover:scale-110 transition-transform">
                   <QrCode className="h-8 w-8" />
                 </div>
                 <span className="font-black text-[#1e293b] text-sm uppercase tracking-wider">My QR</span>
@@ -159,7 +159,7 @@ export default async function Dashboard({
                 href="/scan"
                 className="bg-white p-7 rounded-[2.5rem] shadow-xl shadow-blue-900/5 flex flex-col items-center gap-4 transition-all active:scale-95 border border-slate-50 group hover:border-blue-100"
               >
-                <div className="h-16 w-16 rounded-2xl bg-blue-50 flex items-center justify-center text-[#2563eb] group-hover:scale-110 transition-transform">
+                <div className="h-16 w-16 rounded-2xl bg-blue-50 flex items-center justify-center text-[#3244bb] group-hover:scale-110 transition-transform">
                   <QrCode className="h-8 w-8" />
                 </div>
                 <span className="font-black text-[#1e293b] text-sm uppercase tracking-wider">Scan QR</span>
@@ -182,12 +182,12 @@ export default async function Dashboard({
           <div className="flex items-center justify-between mb-5 px-2">
             <h3 className="text-lg font-black text-[#1e293b] flex items-center gap-3">
               <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center">
-                <History className="h-4 w-4 text-[#2563eb]" />
+                <History className="h-4 w-4 text-[#3244bb]" />
               </div>
               {isSenior ? 'Recent Scans' : 'Recent Activity'}
             </h3>
             {isFreshman && (
-              <Link href="/history" className="text-xs font-black text-[#2563eb] flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest">
+              <Link href="/history" className="text-xs font-black text-[#3244bb] flex items-center gap-1 hover:gap-2 transition-all uppercase tracking-widest">
                 View All <ChevronRight className="h-3 w-3" />
               </Link>
             )}
@@ -211,7 +211,7 @@ export default async function Dashboard({
                       </p>
                     </div>
                   </div>
-                  <div className="bg-blue-50 text-[#2563eb] px-4 py-1.5 rounded-full text-[10px] font-black border border-blue-100 uppercase tracking-tighter">
+                  <div className="bg-blue-50 text-[#3244bb] px-4 py-1.5 rounded-full text-[10px] font-black border border-blue-100 uppercase tracking-tighter">
                     {isSenior ? 'Verified' : '+1 Token'}
                   </div>
                 </div>
@@ -232,23 +232,23 @@ export default async function Dashboard({
 
       {/* Bottom Nav */}
       <div className="fixed bottom-6 left-6 right-6 bg-white/90 backdrop-blur-2xl rounded-full border border-white/50 px-8 py-3 flex justify-around items-center shadow-2xl shadow-blue-900/20 z-50">
-        <Link href="/" className="flex flex-col items-center gap-1 text-[#2563eb] transition-all">
+        <Link href="/" className="flex flex-col items-center gap-1 text-[#3244bb] transition-all">
           <div className="bg-blue-500 p-3 rounded-full shadow-lg shadow-blue-500/30">
             <UserIcon className="h-6 w-6 text-white" />
           </div>
         </Link>
         {isFreshman && (
           <>
-            <Link href="/scan" className="flex flex-col items-center gap-1 text-[#94a3b8] hover:text-[#2563eb] transition-all">
+            <Link href="/scan" className="flex flex-col items-center gap-1 text-[#94a3b8] hover:text-[#3244bb] transition-all">
               <QrCode className="h-6 w-6" />
             </Link>
-            <Link href="/leaderboard" className="flex flex-col items-center gap-1 text-[#94a3b8] hover:text-[#2563eb] transition-all">
+            <Link href="/leaderboard" className="flex flex-col items-center gap-1 text-[#94a3b8] hover:text-[#3244bb] transition-all">
               <Trophy className="h-6 w-6" />
             </Link>
           </>
         )}
         {isSenior && (
-          <Link href="/senior/qr" className="flex flex-col items-center gap-1 text-[#94a3b8] hover:text-[#2563eb] transition-all">
+          <Link href="/senior/qr" className="flex flex-col items-center gap-1 text-[#94a3b8] hover:text-[#3244bb] transition-all">
             <QrCode className="h-6 w-6" />
           </Link>
         )}
