@@ -11,7 +11,7 @@ export default async function LoginPage({
 }) {
   const { error } = await searchParams
   return (
-    <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/Bg.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
+    <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/Login/Bg.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
     {/* <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]"> */}
       <div className="w-full max-w-md animate-fade-in">
         <div className="mb-12 text-center flex flex-col items-center">
@@ -20,8 +20,8 @@ export default async function LoginPage({
             <Image 
               src="/PIC/Freshy Camp LOGO.png" 
               alt="Freshy Camp Logo" 
-              width={240} 
-              height={240} 
+              width={360} 
+              height={360} 
               className="relative z-10 drop-shadow-2xl"
               priority 
             />
@@ -31,9 +31,13 @@ export default async function LoginPage({
           </div> */}
         </div>
 
+        {/* <form 
+          action={login}
+          className="space-y-5 rounded-[3rem] bg-white p-10 shadow-2xl shadow-blue-900/5 border border-slate-100 opacity-45"
+        > */}
         <form 
           action={login}
-          className="space-y-5 rounded-[3rem] bg-white p-10 shadow-2xl shadow-blue-900/5 border border-slate-100"
+          className="space-y-5 rounded-[3rem] bg-white p-10 shadow-2xl shadow-blue-900/5 border border-slate-100 bg-[url('/PIC/Login/BackgroundText.png') bg-cover bg-center"
         >
           <div>
             <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">Student ID</label>
