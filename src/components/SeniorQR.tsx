@@ -1,9 +1,9 @@
 'use client'
 
 import { QRCodeSVG } from 'qrcode.react'
-import { ArrowLeft, Download, Share2, ShieldCheck, RefreshCw } from 'lucide-react'
+import { ArrowLeft, Download, Share2, ShieldCheck, RefreshCw, Clock } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 interface SeniorQRProps {
   seniorId: string
@@ -14,12 +14,32 @@ interface SeniorQRProps {
 export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProps) {
   const [refreshKey, setRefreshKey] = useState(0)
   const [isRefreshing, setIsRefreshing] = useState(false)
+  const [timestamp, setTimestamp] = useState(Date.now())
+  const [timeLeft, setTimeLeft] = useState(30)
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     setIsRefreshing(true)
+    setTimestamp(Date.now())
     setRefreshKey(prev => prev + 1)
+    setTimeLeft(30)
     setTimeout(() => setIsRefreshing(false), 500)
-  }
+  }, [])
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(prev => {
+        if (prev <= 1) {
+          handleRefresh()
+          return 30
+        }
+        return prev - 1
+      })
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [handleRefresh])
+
+  const qrValue = `${seniorId}:${timestamp}`
 
   const downloadQR = () => {
     const svg = document.getElementById('senior-qr') as HTMLElement
@@ -53,9 +73,22 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
         <button 
           onClick={handleRefresh}
           disabled={isRefreshing}
-          className={`h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-[#2563eb] shadow-sm border border-slate-100 active:scale-90 transition-all ${isRefreshing ? 'opacity-50' : ''}`}
+          className="h-12 w-12 bg-white rounded-2xl flex items-center justify-center text-[#2563eb] shadow-sm border border-slate-100 active:scale-90 transition-all relative"
         >
           <RefreshCw className={`h-6 w-6 ${isRefreshing ? 'animate-spin' : ''}`} />
+          <svg className="absolute inset-0 h-full w-full -rotate-90 pointer-events-none">
+            <circle
+              cx="24"
+              cy="24"
+              r="20"
+              fill="transparent"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeDasharray={125.6}
+              strokeDashoffset={125.6 - (125.6 * timeLeft) / 30}
+              className="text-blue-500/20 transition-all duration-1000 ease-linear"
+            />
+          </svg>
         </button>
       </div>
 
@@ -67,7 +100,7 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
         <div className="relative z-10 bg-white p-5 rounded-[2.5rem] shadow-2xl shadow-blue-900/10 border-4 border-slate-50">
           <QRCodeSVG
             id="senior-qr"
-            value={seniorId}
+            value={qrValue}
             size={240}
             level="H"
             includeMargin={false}
@@ -80,6 +113,11 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
               excavate: true,
             }}
           />
+        </div>
+        
+        <div className="mt-6 flex items-center gap-2 text-[10px] font-black text-[#94a3b8] uppercase tracking-[0.2em] bg-slate-50 px-4 py-2 rounded-full border border-slate-100">
+           <Clock className="h-3 w-3" />
+           Next Update in {timeLeft}s
         </div>
 
         <div className="mt-10 text-center relative z-10 w-full">

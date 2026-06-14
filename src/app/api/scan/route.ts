@@ -3,8 +3,19 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
-    const { senior_id } = await request.json()
+    const { senior_id: qrValue } = await request.json()
     const supabase = await createClient()
+
+    // Parse senior_id:timestamp
+    const parts = qrValue.split(':')
+    const senior_id = parts[0]
+    const timestamp = parts.length > 1 ? parseInt(parts[1]) : 0
+
+    // Validate timestamp (allow 60 seconds of drift/validity)
+    const now = Date.now()
+    if (!timestamp || (now - timestamp) > 60000) {
+      return NextResponse.json({ error: 'QR code expired. Please ask the senior to refresh.' }, { status: 400 })
+    }
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
