@@ -2,6 +2,7 @@ import { sendResetOtp, verifyResetOtp } from './actions'
 import { KeyRound, ArrowLeft, User, Hash } from 'lucide-react'
 import Link from 'next/link'
 import { SubmitButton } from '@/components/SubmitButton'
+import Image from 'next/image'
 
 export default async function ForgotPasswordPage({
   searchParams,
@@ -11,7 +12,8 @@ export default async function ForgotPasswordPage({
   const { error, success, email } = await searchParams
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]">
+    <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/Login/Bg.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
+    {/* \</div><div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]"> */}
       <div className="w-full max-w-md animate-fade-in">
         <Link 
           href="/login"
@@ -20,11 +22,19 @@ export default async function ForgotPasswordPage({
           <ArrowLeft className="h-6 w-6" />
         </Link>
 
-        <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-[#2563eb] shadow-xl shadow-blue-500/20">
-            <KeyRound className="h-10 w-10 text-white" />
+        <div className="mb-8 text-center flex flex-col items-center">
+          <div className="mb-8 relative">
+            <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full scale-150" />
+            <Image 
+              src="/PIC/Freshy Camp LOGO.png" 
+              alt="Freshy Camp Logo" 
+              width={360} 
+              height={360} 
+              className="relative z-10 drop-shadow-2xl"
+              priority 
+            />
           </div>
-          <h1 className="text-3xl font-black text-[#1e293b]">Reset Password</h1>
+          <h1 className="text-3xl font-black text-[#f7f8f8]">Reset Password</h1>
           <p className="mt-2 text-[#2563eb] font-medium text-sm">
             {success ? 'Enter the 6-digit code sent to your email' : 'Enter your Student ID to receive a reset code'}
           </p>

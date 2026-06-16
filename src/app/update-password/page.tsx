@@ -3,6 +3,7 @@ import { Lock, ShieldCheck } from 'lucide-react'
 import { SubmitButton } from '@/components/SubmitButton'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import Image from 'next/image'
 
 export default async function UpdatePasswordPage({
   searchParams,
@@ -22,9 +23,17 @@ export default async function UpdatePasswordPage({
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]">
       <div className="w-full max-w-md animate-fade-in">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-3xl bg-[#2563eb] shadow-xl shadow-blue-500/20">
-            <ShieldCheck className="h-10 w-10 text-white" />
-          </div>
+          <div className="mb-8 relative">
+                      <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full scale-150" />
+                      <Image 
+                        src="/PIC/Freshy Camp LOGO.png" 
+                        alt="Freshy Camp Logo" 
+                        width={360} 
+                        height={360} 
+                        className="relative z-10 drop-shadow-2xl"
+                        priority 
+                      />
+                    </div>
           <h1 className="text-3xl font-black text-[#1e293b]">New Password</h1>
           <p className="mt-2 text-[#2563eb] font-medium text-sm">Secure your account with a new password</p>
         </div>
