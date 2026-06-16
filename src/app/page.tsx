@@ -86,9 +86,10 @@ export default async function Dashboard({
       )}
 
       {/* Header */}
-      <div className="bg-[#3244bb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
+      <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/My QR code/QRcode.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
+      {/* <div className="bg-[#3244bb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/20 rounded-full -ml-10 -mb-10 blur-2xl" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/20 rounded-full -ml-10 -mb-10 blur-2xl" /> */}
         
         <div className="flex items-center justify-between mb-10 relative z-10">
           <div className="flex items-center gap-4">
