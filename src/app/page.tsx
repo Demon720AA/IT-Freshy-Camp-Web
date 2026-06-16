@@ -61,7 +61,8 @@ export default async function Dashboard({
   const typedScans = (scans as unknown as ScanWithProfile[]) || []
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#1e293b]">
+    <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/My QR code/QRcode.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
+    {/* <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#1e293b]"> */}
       {/* Toast Messages */}
       {success && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-md animate-in fade-in slide-in-from-top-4 duration-300">
@@ -86,8 +87,8 @@ export default async function Dashboard({
       )}
 
       {/* Header */}
-      <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/My QR code/QRcode.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
-      {/* <div className="bg-[#3244bb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden"> */}
+      
+      <div className="bg-[#3244bb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/20 rounded-full -ml-10 -mb-10 blur-2xl" />
         
