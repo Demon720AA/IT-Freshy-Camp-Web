@@ -33,10 +33,10 @@ export default async function LoginPage({
 
         <form 
           action={login}
-          className="space-y-5 rounded-[3rem] bg-[url('/PIC/Login/BackgroundText.png')] bg-cover bg-center p-10 shadow-2xl shadow-blue-900/5"
+          className="space-y-5 bg-[url('/PIC/Login/BackgroundText.png')] bg-cover bg-center p-10 shadow-2xl shadow-blue-900/5"
         >
           <div>
-            <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">Student ID</label>
+            <label className="mb-2 block text-sm font-bold text-[#ffffff] ml-1">Student ID</label>
             <div className="relative">
               <User className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#64748b]" />
               <input
@@ -45,13 +45,13 @@ export default async function LoginPage({
                 type="text"
                 required
                 className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-4 pl-12 pr-4 text-[#1e293b] placeholder:text-[#64748b] focus:outline-none focus:ring-2 focus:ring-[#2563eb] transition-all"
-                placeholder="e.g. 66123456"
+                placeholder="e.g. 2613000000"
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">Password</label>
+            <label className="mb-2 block text-sm font-bold text-[#ffffff] ml-1">Password</label>
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#64748b]" />
               <input
