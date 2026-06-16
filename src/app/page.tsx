@@ -61,7 +61,11 @@ export default async function Dashboard({
   const typedScans = (scans as unknown as ScanWithProfile[]) || []
 
   return (
-    <div className="min-h-screen bg-[url('/PIC/Bg.png')] bg-cover bg-center bg-fixed pb-24 text-[#1e293b]">
+    <div className="min-h-screen relative text-[#1e293b]">
+      <div 
+        className="fixed inset-0 bg-[url('/PIC/Bg.png')] bg-cover bg-center bg-no-repeat -z-10" 
+        style={{ backgroundAttachment: 'fixed' }} // Extra insurance for some browsers
+      />
       {/* Toast Messages */}
       {success && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-md animate-in fade-in slide-in-from-top-4 duration-300">
@@ -181,7 +185,7 @@ export default async function Dashboard({
           {/* History Section */}
           <div className="mt-10">
             <div className="flex items-center justify-between mb-5 px-2">
-              <h3 className="text-lg font-black text-[#1e293b] flex items-center gap-3">
+              <h3 className="text-lg font-black text-[#ffffff] flex items-center gap-3">
                 <div className="h-8 w-8 rounded-lg bg-blue-100 flex items-center justify-center">
                   <History className="h-4 w-4 text-[#3244bb]" />
                 </div>

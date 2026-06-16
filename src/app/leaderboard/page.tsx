@@ -26,7 +26,8 @@ export default async function LeaderboardPage({
   const typedRankings = (rankings as unknown as Profile[]) || []
 
   return (
-    <div className="min-h-screen bg-[url('/PIC/Leaderboard/Leaderboard.png')] bg-cover bg-center bg-fixed pb-24 text-[#1e293b]">
+    <div className="min-h-screen relative text-[#1e293b] pb-24">
+      <div className="fixed inset-0 bg-[url('/PIC/Leaderboard/Leaderboard.png')] bg-cover bg-center bg-no-repeat -z-10" />
       {/* Header */}
       <div className="px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />

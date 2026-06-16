@@ -24,7 +24,8 @@ export default async function SeniorQRPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[url('/PIC/QRcode/QRcode.png')] bg-cover bg-center bg-fixed px-6 py-12 flex flex-col items-center">
+    <div className="min-h-screen relative px-6 py-12 flex flex-col items-center">
+      <div className="fixed inset-0 bg-[url('/PIC/QRcode/QRcode.png')] bg-cover bg-center bg-no-repeat -z-10" />
       <SeniorQR 
         seniorId={profile.id} 
         fullName={profile.full_name} 

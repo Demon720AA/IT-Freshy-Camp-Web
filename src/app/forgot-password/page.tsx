@@ -12,7 +12,8 @@ export default async function ForgotPasswordPage({
   const { error, success, email } = await searchParams
 
   return (
-    <div className="min-h-screen bg-[url('/PIC/Login/Bg.png')] bg-cover bg-center bg-fixed flex flex-col items-center justify-center px-6 text-[#1e293b]">
+    <div className="min-h-screen relative flex flex-col items-center justify-center px-6 text-[#1e293b]">
+      <div className="fixed inset-0 bg-[url('/PIC/Login/Bg.png')] bg-cover bg-center bg-no-repeat -z-10" />
       <div className="w-full max-w-md animate-fade-in">
         <Link 
           href="/login"

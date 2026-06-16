@@ -61,7 +61,7 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
   }
 
   return (
-    <div className="flex flex-col items-center gap-8 animate-fade-in text-[#1e293b]">
+    <div className="flex flex-col items-center gap-8 animate-fade-in text-[#ffffff]">
       <div className="w-full flex items-center justify-between mb-4">
         <Link 
           href="/"
