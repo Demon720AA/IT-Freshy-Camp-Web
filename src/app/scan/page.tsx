@@ -16,7 +16,7 @@ const Scanner = dynamic(() => import('@/components/Scanner'), {
 
 export default function ScanPage() {
   return (
-    <div className="min-h-screen bg-[url('/PIC/Qr scanner/QRscanner.png')] bg-cover bg-center bg-fixed px-6 py-12 flex flex-col items-center">
+    <div className="min-h-screen bg-[url('/PIC/QRscanner/QRscanner.png')] bg-cover bg-center bg-fixed px-6 py-12 flex flex-col items-center">
       <Scanner />
     </div>
   )
