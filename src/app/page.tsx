@@ -88,7 +88,7 @@ export default async function Dashboard({
 
       {/* Header */}
       
-      <div className="bg-[#3244bb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
+      <div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-400/20 rounded-full -ml-10 -mb-10 blur-2xl" />
         

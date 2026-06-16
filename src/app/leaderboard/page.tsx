@@ -29,7 +29,7 @@ export default async function LeaderboardPage({
     <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/Leadeboard/Leadeboard.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
     {/* <div className="min-h-screen bg-[#f8fafc] pb-24 text-[#1e293b]"> */}
       {/* Header */}
-      <div className="bg-[#2563eb] px-6 pt-12 pb-24 rounded-b-[4rem] shadow-2xl shadow-blue-500/30 relative overflow-hidden">
+      <div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
         <Link 
           href="/"
