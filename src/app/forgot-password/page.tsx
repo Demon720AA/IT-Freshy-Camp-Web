@@ -1,5 +1,5 @@
 import { sendResetOtp, verifyResetOtp } from './actions'
-import { KeyRound, ArrowLeft, User, Hash } from 'lucide-react'
+import { ArrowLeft, User, Hash } from 'lucide-react'
 import Link from 'next/link'
 import { SubmitButton } from '@/components/SubmitButton'
 import Image from 'next/image'

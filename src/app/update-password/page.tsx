@@ -1,5 +1,5 @@
 import { updatePassword } from './actions'
-import { Lock, ShieldCheck } from 'lucide-react'
+import { Lock } from 'lucide-react'
 import { SubmitButton } from '@/components/SubmitButton'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'

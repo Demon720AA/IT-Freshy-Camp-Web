@@ -14,7 +14,7 @@ interface SeniorQRProps {
 export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProps) {
   const [refreshKey, setRefreshKey] = useState(0)
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [timestamp, setTimestamp] = useState(Date.now())
+  const [timestamp, setTimestamp] = useState(() => Date.now())
   const [timeLeft, setTimeLeft] = useState(30)
 
   const handleRefresh = useCallback(() => {
