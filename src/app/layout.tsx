@@ -28,8 +28,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-slate-200/50`}>
-        <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/Bg.png')] bg-cover bg-center bg-fixed shadow-[0_0_100px_rgba(0,0,0,0.1)]">
+      <body className={`${inter.className} antialiased bg-slate-100`}>
+        <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden shadow-[0_0_100px_rgba(0,0,0,0.1)]">
           {children}
         </div>
       </body>

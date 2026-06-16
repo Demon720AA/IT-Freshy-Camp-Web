@@ -11,8 +11,7 @@ export default async function LoginPage({
 }) {
   const { error } = await searchParams
   return (
-    <div className="mx-auto max-w-md min-h-screen relative overflow-x-hidden bg-[url('/PIC/Login/Bg.png')] bg-cover bg-center bg-fixedshadow-[0_0_100px_rgba(0,0,0,0.1)]">
-    {/* <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]"> */}
+    <div className="min-h-screen bg-[url('/PIC/Login/Bg.png')] bg-cover bg-center bg-fixed flex flex-col items-center justify-center px-6 text-[#1e293b]">
       <div className="w-full max-w-md animate-fade-in">
         <div className="mb-12 text-center flex flex-col items-center">
           <div className="mb-8 relative">

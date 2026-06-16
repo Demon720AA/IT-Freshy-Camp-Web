@@ -20,7 +20,7 @@ export default async function UpdatePasswordPage({
   const { error } = await searchParams
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-6 text-[#1e293b]">
+    <div className="min-h-screen bg-[url('/PIC/Login/Bg.png')] bg-cover bg-center bg-fixed flex flex-col items-center justify-center px-6 text-[#1e293b]">
       <div className="w-full max-w-md animate-fade-in">
         <div className="mb-8 text-center">
           <div className="mb-8 relative">
