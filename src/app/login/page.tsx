@@ -33,7 +33,7 @@ export default async function LoginPage({
 
         <form 
           action={login}
-          className="space-y-5 rounded-[3rem] bg-white bg-[url('/PIC/Login/BackgroundText.png')] bg-cover bg-center p-10 shadow-2xl shadow-blue-900/5 border border-slate-100"
+          className="space-y-5 rounded-[3rem] bg-[url('/PIC/Login/BackgroundText.png')] bg-cover bg-center p-10 shadow-2xl shadow-blue-900/5"
         >
           <div>
             <label className="mb-2 block text-sm font-bold text-[#1e293b] ml-1">Student ID</label>
