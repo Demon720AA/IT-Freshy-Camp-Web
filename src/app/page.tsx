@@ -112,7 +112,8 @@ export default async function Dashboard({
             </form>
           </div>
 
-          <div className="bg-white/10 backdrop-blur-2xl rounded-[2.5rem] p-8 border border-white/20 flex items-center justify-between shadow-2xl relative z-10">
+          <div className="space-y-5 bg-[url('/PIC/Menu/TokenShow.png')] bg-cover bg-center p-10 shadow-2xl shadow-blue-900/5">
+          {/* <div className="bg-white/10 backdrop-blur-2xl rounded-[2.5rem] p-8 border border-white/20 flex items-center justify-between shadow-2xl relative z-10"> */}
             <div>
               <p className="text-white/80 text-[10px] font-black uppercase tracking-[0.2em]">
                 {isSenior ? 'Total Freshmen Scanned' : 'Your Token Balance'}
