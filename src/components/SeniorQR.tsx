@@ -69,7 +69,7 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
         >
           <ArrowLeft className="h-6 w-6" />
         </Link>
-        <h1 className="text-xl font-black uppercase tracking-widest text-[#1e293b]">Senior QR</h1>
+        <h1 className="text-xl font-black uppercase tracking-widest text-[#ffffff]">Senior QR</h1>
         <button 
           onClick={handleRefresh}
           disabled={isRefreshing}
@@ -92,7 +92,7 @@ export default function SeniorQR({ seniorId, fullName, studentId }: SeniorQRProp
         </button>
       </div>
 
-      <div key={refreshKey} className="bg-white p-10 rounded-[4rem] shadow-2xl shadow-blue-900/10 flex flex-col items-center border border-slate-50 relative overflow-hidden w-full max-w-sm animate-fade-in">
+      <div key={refreshKey} className="bg-white p-10 rounded-[4rem] shadow-2xl shadow-blue-900/10 flex flex-col items-center border border-slate-50 relative overflow-hidden w-full max-w-sm animate-fade-in opacity-45">
         {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full -mr-16 -mt-16 blur-2xl" />
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/5 rounded-full -ml-16 -mb-16 blur-2xl" />

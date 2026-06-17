@@ -223,7 +223,7 @@ export default async function Dashboard({
                   </div>
                 ))
               ) : (
-                <div className="bg-white p-12 rounded-[3rem] border-2 border-dashed border-slate-200 text-center flex flex-col items-center">
+                <div className="bg-white p-12 rounded-[3rem] border-2 border-dashed border-slate-200 text-center flex flex-col items-center opacity-45">
                   <div className="h-16 w-16 rounded-full bg-slate-50 flex items-center justify-center mb-4">
                      <History className="h-8 w-8 text-slate-200" />
                   </div>
@@ -238,7 +238,7 @@ export default async function Dashboard({
       </div>
 
       {/* Bottom Nav */}
-      <div className="fixed bottom-6 left-6 right-6 bg-white/90 backdrop-blur-2xl rounded-full border border-white/50 px-8 py-3 flex justify-around items-center shadow-2xl shadow-blue-900/20 z-50">
+      <div className="fixed bottom-6 left-6 right-6 bg-[#3244bb] backdrop-blur-2xl rounded-full border border-white/50 px-8 py-3 flex justify-around items-center shadow-2xl shadow-blue-900/20 z-50">
         <Link href="/" className="flex flex-col items-center gap-1 text-[#3244bb] transition-all">
           <div className="bg-blue-500 p-3 rounded-full shadow-lg shadow-blue-500/30">
             <UserIcon className="h-6 w-6 text-white" />
