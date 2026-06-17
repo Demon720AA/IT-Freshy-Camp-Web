@@ -75,7 +75,7 @@ export default async function LeaderboardPage({
         </div>
 
         {/* Ranking List */}
-        <div className="bg-white rounded-[3rem] shadow-2xl shadow-blue-900/5 overflow-hidden border border-slate-100 opacity-45" >
+        <div className="bg-[url('/PIC/Leaderboard/board.png')] bg-cover bg-center rounded-[3rem] shadow-2xl shadow-blue-900/5 overflow-hidden border border-slate-100 " >
           <div className="max-h-[65vh] overflow-y-auto p-4 sm:p-8">
             {typedRankings.length > 0 ? (
               <div className="space-y-4">

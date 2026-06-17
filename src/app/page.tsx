@@ -223,7 +223,7 @@ export default async function Dashboard({
                   </div>
                 ))
               ) : (
-                <div className="bg-white p-12 rounded-[3rem] border-2 border-dashed border-slate-200 text-center flex flex-col items-center opacity-45">
+                <div className="bg-[url('/PIC/Menu/leaderboard.png')] p-12 rounded-[3rem] border-2 border-dashed border-slate-200 text-center flex flex-col items-center">
                   <div className="h-16 w-16 rounded-full bg-slate-50 flex items-center justify-center mb-4">
                      <History className="h-8 w-8 text-slate-200" />
                   </div>
