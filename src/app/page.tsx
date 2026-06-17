@@ -63,7 +63,7 @@ export default async function Dashboard({
   return (
     <div className="min-h-screen relative text-[#1e293b]">
       <div 
-        className="fixed inset-0 bg-[url('/PIC/Bg.png')] bg-cover bg-center bg-no-repeat -z-10" 
+        className="fixed inset-0 bg-[url('/PIC/Menu/Menu.png')] bg-cover bg-center bg-no-repeat -z-10" 
         style={{ backgroundAttachment: 'fixed' }} // Extra insurance for some browsers
       />
       {/* Toast Messages */}
