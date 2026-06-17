@@ -203,7 +203,7 @@ export default async function Dashboard({
               {typedScans.length > 0 ? (
                 typedScans.map((scan) => (
                   <div key={scan.id} className="bg-white p-5 rounded-[2rem] shadow-sm border border-slate-100 flex items-center justify-between hover:shadow-md transition-shadow">
-                    <div className="bg-[url('/PIC/Menu/NameTag.png')] bg-cover bg-center flex items-center gap-4">
+                    <div className="bg-[url('/PIC/Menu/Profile.png')] bg-cover bg-center flex items-center gap-4">
                       <div className="h-12 w-12 rounded-xl bg-slate-50 flex items-center justify-center text-[#64748b] border border-slate-100">
                         <UserIcon className="h-6 w-6" />
                       </div>
