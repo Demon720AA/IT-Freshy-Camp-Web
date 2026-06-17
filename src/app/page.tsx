@@ -112,7 +112,7 @@ export default async function Dashboard({
             </form>
           </div>
 
-          <div className="bg-[url('/PIC/Menu/TokenShow.png')] bg-cover bg-center flex items-center justify-between shadow-2xl relative z-10">
+          <div className="bg-[url('/PIC/Menu/TokenShow.png')] bg-cover bg-center backdrop-blur-2xl p-8 border border-white/20 flex items-center justify-between shadow-2xl relative z-10">
           {/* <div className="bg-white/10 backdrop-blur-2xl rounded-[2.5rem] p-8 border border-white/20 flex items-center justify-between shadow-2xl relative z-10"> */}
             <div>
               <p className="text-white/80 text-[10px] font-black uppercase tracking-[0.2em]">
