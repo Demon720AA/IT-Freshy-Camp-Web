@@ -16,12 +16,18 @@ export default async function LeaderboardPage({
 
   const supabase = await createClient()
 
+  // Get current user to highlight their rank
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: currentUserProfile } = user 
+    ? await supabase.from('profiles').select('student_id').eq('id', user.id).single()
+    : { data: null }
+
   const { data: rankings } = await supabase
     .from('profiles')
     .select('full_name, total_tokens, student_id')
     .eq('role', targetRole)
     .order('total_tokens', { ascending: false })
-    .limit(20)
+    .limit(100)
 
   const typedRankings = (rankings as unknown as Profile[]) || []
 
@@ -69,12 +75,13 @@ export default async function LeaderboardPage({
         </div>
 
         {/* Ranking List */}
-        <div className="bg-white rounded-[3rem] shadow-2xl shadow-blue-900/5 overflow-hidden border border-slate-100 min-h-[50vh]">
-          <div className="p-8">
+        <div className="bg-white rounded-[3rem] shadow-2xl shadow-blue-900/5 overflow-hidden border border-slate-100">
+          <div className="max-h-[65vh] overflow-y-auto p-4 sm:p-8">
             {typedRankings.length > 0 ? (
               <div className="space-y-4">
                 {typedRankings.map((rank, index) => {
                   const isTop3 = index < 3
+                  const isCurrentUser = currentUserProfile?.student_id === rank.student_id
                   const medals = [
                     'text-yellow-600 bg-yellow-50 border-yellow-100',
                     'text-slate-500 bg-slate-50 border-slate-100',
@@ -85,29 +92,44 @@ export default async function LeaderboardPage({
                     <div 
                       key={rank.student_id}
                       className={`flex items-center justify-between p-5 rounded-[2rem] transition-all border ${
-                        index === 0 ? 'bg-blue-50/50 border-blue-100 shadow-sm' : 'bg-white border-transparent hover:border-slate-100'
+                        isCurrentUser 
+                          ? 'bg-blue-600 text-white shadow-lg scale-[1.02] border-blue-400' 
+                          : index === 0 
+                            ? 'bg-blue-50/50 border-blue-100 shadow-sm' 
+                            : 'bg-white border-transparent hover:border-slate-100'
                       }`}
                     >
                       <div className="flex items-center gap-5">
                         <div className={`h-14 w-14 rounded-2xl border flex items-center justify-center font-black text-xl shadow-inner ${
-                          isTop3 ? medals[index] : 'text-[#64748b] bg-slate-50 border-slate-100'
+                          isCurrentUser
+                            ? 'bg-white/20 border-white/30 text-white'
+                            : isTop3 
+                              ? medals[index] 
+                              : 'text-[#64748b] bg-slate-50 border-slate-100'
                         }`}>
                           {isTop3 ? <Medal className="h-7 w-7" /> : index + 1}
                         </div>
                         <div>
-                          <p className="font-black text-[#1e293b] tracking-tight">{rank.full_name}</p>
-                          <p className="text-[10px] font-bold text-[#64748b] uppercase tracking-widest mt-0.5">ID: {rank.student_id}</p>
+                          <p className={`font-black tracking-tight ${isCurrentUser ? 'text-white' : 'text-[#1e293b]'}`}>
+                            {rank.full_name}
+                            {isCurrentUser && <span className="ml-2 text-[10px] bg-white/20 px-2 py-0.5 rounded-full">YOU</span>}
+                          </p>
+                          <p className={`text-[10px] font-bold uppercase tracking-widest mt-0.5 ${isCurrentUser ? 'text-white/70' : 'text-[#64748b]'}`}>ID: {rank.student_id}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3 text-right">
                         <div className="flex flex-col items-end">
                            <div className="flex items-center gap-1.5">
-                              <span className={`text-2xl font-black tracking-tighter ${isTop3 ? 'text-[#2563eb]' : 'text-[#1e293b]'}`}>
+                              <span className={`text-2xl font-black tracking-tighter ${
+                                isCurrentUser ? 'text-white' : isTop3 ? 'text-[#2563eb]' : 'text-[#1e293b]'
+                              }`}>
                                 {rank.total_tokens}
                               </span>
-                              <Trophy className={`h-4 w-4 ${isTop3 ? 'text-[#2563eb]' : 'text-[#64748b]'}`} />
+                              <Trophy className={`h-4 w-4 ${
+                                isCurrentUser ? 'text-white' : isTop3 ? 'text-[#2563eb]' : 'text-[#64748b]'
+                              }`} />
                            </div>
-                           <p className="text-[10px] font-black text-[#64748b] uppercase tracking-[0.1em]">
+                           <p className={`text-[10px] font-black uppercase tracking-[0.1em] ${isCurrentUser ? 'text-white/70' : 'text-[#64748b]'}`}>
                               {isSeniorsTab ? 'Scans' : 'Tokens'}
                            </p>
                         </div>
@@ -130,4 +152,5 @@ export default async function LeaderboardPage({
     </div>
   )
 }
+
 

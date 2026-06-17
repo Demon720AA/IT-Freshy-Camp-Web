@@ -34,7 +34,7 @@ export default async function ForgotPasswordPage({
               priority 
             />
           </div>
-          <h1 className="text-3xl font-black text-[#f7f8f8]">Reset Password</h1>
+          <h1 className="text-3xl font-black text-[#ffffff]">Reset Password</h1>
           <p className="mt-2 text-[#2563eb] font-medium text-sm">
             {success ? 'Enter the 6-digit code sent to your email' : 'Enter your Student ID to receive a reset code'}
           </p>
@@ -111,7 +111,7 @@ export default async function ForgotPasswordPage({
           </form>
         )}
 
-        <p className="mt-8 text-center text-sm text-[#64748b] font-medium px-4">
+        <p className="mt-8 text-center text-sm text-[#ffffff] font-medium px-4">
           Check your TNI student email for the {success ? '6-digit code' : 'reset code'}.
         </p>
       </div>
